@@ -34,3 +34,11 @@ data class LoginResponse(
 data class TodoBody(
     val title: String,
 )
+
+@JsonClass(generateAdapter = true)
+data class UserResponse(
+    val id : Double,
+    val username: String,
+    val email: String,
+    val password: String
+)

@@ -1,10 +1,12 @@
 package com.example.todoApp.adapter
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoApp.databinding.ItemLayoutBinding
 import com.example.todoApp.model.Todo
 import com.example.todoApp.model.Todor
+import com.example.todoApp.repo.LoginRepo
 import com.example.todoApp.util.layoutInflater
 import com.example.todoApp.viewmodel.SyncViewModel
 
@@ -20,7 +22,10 @@ private val selectedTodo : (Todo) -> Unit
         } }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+        if(LoginRepo.roomId != null && todos[position].userId == LoginRepo.roomId)
         holder.loadList(todos[position])
+        else
+            Log.d("not in",todos[position].toString())
     }
 
     override fun getItemCount(): Int = todos.size

@@ -47,12 +47,6 @@ private val todoRepo: TodoRepo
     }
 
 
-
-val reg = RegisterBody("username : cj2","email : cj2@gmail.com","password : pass")
-
-val reg4 = RegisterBody("BlueUser3","blueuser@gmail.com","password123")
-val reg5 = LoginBody("BlueUser3","password123")
-
     companion object{
       lateinit var credentials : LoginBody
 

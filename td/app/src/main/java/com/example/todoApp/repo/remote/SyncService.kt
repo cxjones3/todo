@@ -52,4 +52,9 @@ interface SyncService {
         @Path("endpoint") endpoint : Double,
     ): Response<Any>
 
+    @GET("api/auth/me")
+    suspend fun user(
+        @HeaderMap headers: Map<String,String>,
+    ): Response<UserResponse>
+
 }

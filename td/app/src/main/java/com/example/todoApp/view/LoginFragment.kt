@@ -46,6 +46,7 @@ class LoginFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         MainActivity.bar2("Login")
+        MainActivity.enableBottomNav(false)
 
         binding?.logUser?.setText("username : cj2")
         binding?.logPassword?.setText("password : pass")
@@ -74,8 +75,8 @@ class LoginFragment : Fragment(){
 
     fun logger(){
         GlobalScope.launch(Dispatchers.IO) {val afterLog = LoginRepo.login(SyncViewModel.credentials)
-            Log.d("testing login",afterLog.toString())
-            Snackbar.make(requireView(), afterLog.body()!!.message, Snackbar.LENGTH_LONG).show()
+            Log.d("testing login",afterLog.body().toString())
+            Snackbar.make(requireView(), afterLog.body()?.message ?: "bad credentials", Snackbar.LENGTH_LONG).show()
             if (afterLog.message().equals("OK")) {
                 LoginRepo.username = SyncViewModel.credentials.username
                 LoginRepo.checkCredentials(activity?.application!!, afterLog.body()!!.token)

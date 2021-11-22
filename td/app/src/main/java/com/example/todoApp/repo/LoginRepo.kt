@@ -22,6 +22,7 @@ object LoginRepo {
     val Context.dataStore by preferencesDataStore("credentials")
     //lateinit var token : String
     var username : String? = null
+    var roomId : Double? = null
     val headers= HashMap<String, String>()//.also { it["Authorization"] = token }
 
     suspend fun syncData(endpoint : Double)=RetrofitInstance.syncService.sync(headers, endpoint)
@@ -37,6 +38,8 @@ object LoginRepo {
         val dataStore = application.applicationContext.dataStore
         dataStoreSave(dataStore, token3)
         dataStoreRead(dataStore)
+        roomId = RetrofitInstance.syncService.user(headers).body()?.id
+        Log.d("test id", roomId.toString())
     }
 
     private suspend fun dataStoreSave(ds : DataStore<Preferences>, token : String)

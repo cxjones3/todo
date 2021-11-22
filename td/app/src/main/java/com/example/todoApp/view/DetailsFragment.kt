@@ -37,6 +37,7 @@ class DetailsFragment : Fragment() {
         binding.tvDate.text = newTodo.date.toString()
         binding.tvUpdate.text = newTodo.updatedAt.toString()
         binding.tvId.text = newTodo.id.toString()
+        binding.tvUser.text= "user ID"+newTodo.userId.toString()
 
         binding.btnEdit.setOnClickListener(){
             val controller = findNavController()

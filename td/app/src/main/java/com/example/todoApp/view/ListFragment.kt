@@ -44,10 +44,11 @@ _binding = it  }.root
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         MainActivity.bar2("All")
+        MainActivity.enableBottomNav(true)
 
         viewModel.todoSet.observe(viewLifecycleOwner)
         {
-            Log.d("checker","check2")
+            Log.d("checker",it.toString())
             binding.rvLsit.adapter = CardAdapter(::selectedTodo)
             (binding.rvLsit.adapter as CardAdapter).updateUrls(it)
 
