@@ -38,13 +38,12 @@ _binding = it  }.root
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("destroy","check2")
         _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("checker","check")
+        MainActivity.bar2("All")
 
         viewModel.todoSet.observe(viewLifecycleOwner)
         {

@@ -76,4 +76,13 @@
             android:id="@+id/afterComp"
             app:destination="@id/listFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/profleFragment"
+        android:name="com.example.todoApp.view.ProfleFragment"
+        android:label="profile_layout"
+        tools:layout="@layout/profile_layout" >
+        <action
+            android:id="@+id/logout"
+            app:destination="@id/loginFragment2" />
+    </fragment>
 </navigation>

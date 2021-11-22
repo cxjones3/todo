@@ -33,12 +33,11 @@ interface SyncService {
     ): Response<Todo>
 
 
-    @Headers("Authorization:{token}")
-    @GET("api/{endpoint}")
+    @GET("api/todos/{endpoint}")
     suspend fun sync(
-        @Path("endpoint") endpoint : String,
-        token:String
-    ): Response<LoginResponse>
+        @HeaderMap headers: Map<String,String>,
+        @Path("endpoint") endpoint : Double,
+    ): Response<Todo>
 
     @PUT("api/todos/{endpoint}")
     suspend fun update(

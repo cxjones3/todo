@@ -8,16 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.map
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.todoApp.R
 import com.example.todoApp.databinding.EditLayoutBinding
 import com.example.todoApp.model.Todo
+import com.example.todoApp.repo.LoginRepo
 import com.example.todoApp.repo.TodoRepo
 import com.example.todoApp.viewmodel.SyncViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class EditFragment : Fragment() {
 
@@ -44,6 +47,8 @@ class EditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        MainActivity.bar2("Edit")
+
         val newTodo = args.value.editable
         val controller = findNavController()
         binding?.tvTitle?.setText(newTodo.title)
@@ -52,7 +57,6 @@ class EditFragment : Fragment() {
         binding?.switcher?.isChecked = newTodo.completed
         binding?.tvDate?.setText(newTodo.date.toString())
         binding?.tvUpdate?.setText(newTodo.updatedAt.toString())
-       // binding?.tvId?.setText(newTodo.id.toString())
 
         binding?.btnCancel?.setOnClickListener(){controller.navigateUp()}
 
@@ -64,18 +68,7 @@ class EditFragment : Fragment() {
                     .setMessage("Are you sure you want to delete this todo??")
                     .setNegativeButton("no") { dialog, which -> }
                     .setPositiveButton("yes") { dialog, which ->
-                        SyncViewModel.modTodo = deletingTodo
-                        Log.d("test",SyncViewModel.modTodo.toString())
-                        viewModel.viewDel()
-                        Snackbar.make(view, ComposeFragment.messenger, Snackbar.LENGTH_LONG).show()
-                        if(ComposeFragment.messenger.equals("dOK"))move()
-
-                       /* viewModel.delTodo.observe(viewLifecycleOwner){
-                            Snackbar.make(view, it.message(), Snackbar.LENGTH_LONG).show()
-                            if(it.message().equals("aOK"))
-                               move()
-                            else Snackbar.make(view, it.body().toString(), Snackbar.LENGTH_LONG).show()
-                        }*/
+                        delete(deletingTodo)
                     }
                     .show()
             }
@@ -90,24 +83,7 @@ class EditFragment : Fragment() {
                 Integer.decode(binding?.tvDate?.editableText.toString()),
                 Integer.decode(binding?.tvUpdate?.editableText.toString())
             )
-
-            SyncViewModel.modTodo = savedTodo
-            viewModel.viewEdit()
-            Snackbar.make(view, ComposeFragment.messenger, Snackbar.LENGTH_LONG).show().also {
-                if(ComposeFragment.messenger.equals("uOK"))move()
-            }
-
-
-            /*viewModel.editTodo.observe(viewLifecycleOwner){
-                Snackbar.make(view, it.message(), Snackbar.LENGTH_LONG).show()
-                if(it.message().equals("OK")){
-                    val action = EditFragmentDirections.backToDetails(savedTodo)
-                    controller.navigate(action)
-                    Log.d("after save",it.body().toString())
-                }
-                else Snackbar.make(view, it.body().toString(), Snackbar.LENGTH_LONG).show()
-            }*/
-
+            save(savedTodo)
         }
     }
 
@@ -115,6 +91,30 @@ class EditFragment : Fragment() {
         val controller = findNavController()
         controller.navigate(EditFragmentDirections.afterDel())
 
+    }
+
+    fun delete(todo: Todo){
+        GlobalScope.launch(Dispatchers.IO) {
+            val afterLog = LoginRepo.delete(todo.id)
+            Log.d("testing delete",afterLog.toString())
+            Snackbar.make(requireView(), afterLog.message(), Snackbar.LENGTH_LONG).show()
+            if (afterLog.message().equals("OK")) {
+                viewModel.viewDel(todo)
+                withContext(Dispatchers.Main){ move() }
+            }
+        }
+    }
+
+    fun save(todo: Todo){
+        GlobalScope.launch(Dispatchers.IO) {
+            val editResponse = LoginRepo.update(todo.id, todo)
+            Log.d("testing delete",editResponse.toString())
+            Snackbar.make(requireView(), editResponse.message(), Snackbar.LENGTH_LONG).show()
+            if (editResponse.message().equals("OK")) {
+                viewModel.viewEdit(todo)
+                withContext(Dispatchers.Main){ move() }
+            }
+        }
     }
 
     companion object{

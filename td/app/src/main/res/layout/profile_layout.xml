@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.ProfleFragment">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        android:text="username:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textAppearance="?attr/textAppearanceBody1"
+        android:textColor="@color/purple_200"
+        app:layout_constraintBottom_toTopOf="@+id/username"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/username"
+        android:text="Your Name Here"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textAppearance="?attr/textAppearanceHeadline2"
+        app:layout_constraintBottom_toTopOf="@+id/btn_sync"
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
+
+    <Button
+        android:id="@+id/btn_sync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SYNC DATA"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        app:layout_constraintBottom_toTopOf="@+id/btn_logout"/>
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="logout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        app:layout_constraintTop_toBottomOf="@id/btn_sync"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

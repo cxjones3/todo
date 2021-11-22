@@ -21,9 +21,10 @@ import retrofit2.http.HeaderMap
 object LoginRepo {
     val Context.dataStore by preferencesDataStore("credentials")
     //lateinit var token : String
+    var username : String? = null
     val headers= HashMap<String, String>()//.also { it["Authorization"] = token }
 
-    //suspend fun syncData(endpoint : String, token : String)=RetrofitInstance.syncService.sync(endpoint, token)
+    suspend fun syncData(endpoint : Double)=RetrofitInstance.syncService.sync(headers, endpoint)
     suspend fun login(credentials : LoginBody) : Response<RegisterResponse> = RetrofitInstance.syncService.login(credentials)
     suspend fun register(credentials : RegisterBody)= RetrofitInstance.syncService.register(credentials)
     suspend fun getList() = RetrofitInstance.syncService.getAll(headers)
@@ -31,28 +32,11 @@ object LoginRepo {
     suspend fun delete(id : Double):Response<Any> = RetrofitInstance.syncService.delete(headers, id)
     suspend fun update( id : Double, edit: Todo): Response<Todo> = RetrofitInstance.syncService.update(headers, id, edit)
 
-    suspend fun checkCredentials(application : Application, token3: String)// : List<Todo>
+    suspend fun checkCredentials(application : Application, token3: String)
     {
-     //   lateinit var gets : Response<List<Todo>>
-
         val dataStore = application.applicationContext.dataStore
-
-       // val test = login(credentials)
-       // Log.d("Login attempt:",test.body().toString())
-       // if(test.body() == null){
-
-      //  }else{
-           // var token = test.body()?.token!!
-           // headers["Authorization"] = token3
         dataStoreSave(dataStore, token3)
         dataStoreRead(dataStore)
-         //   dataStore.edit { it[stringPreferencesKey("auth")] = test.body()?.token!! }
-         //   dataStoreRead(dataStore)
-          //  val reg3 = TodoBody("piaodf")
-           // add(reg3)
-            //gets = getList()
-
-       // return gets.body()!!
     }
 
     private suspend fun dataStoreSave(ds : DataStore<Preferences>, token : String)
@@ -68,8 +52,6 @@ object LoginRepo {
         ds.edit{
             headers["Authorization"] = preferences[stringPreferencesKey("auth")]!!
             Log.d("LOGIC", headers["Authorization"]!!)}
-
-
     }
 
 

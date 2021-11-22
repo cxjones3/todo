@@ -1,5 +1,6 @@
 package com.example.todoApp.view
 
+
 import android.app.Application
 import android.os.Bundle
 import android.util.Log
@@ -11,15 +12,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.todoApp.databinding.LoginLayoutBinding
 import com.example.todoApp.model.LoginBody
-import com.example.todoApp.model.RegisterBody
 import com.example.todoApp.repo.LoginRepo
-import com.example.todoApp.viewmodel.SyncViewModel
-import androidx.lifecycle.*
 import com.example.todoApp.repo.TodoRepo
+import com.example.todoApp.viewmodel.SyncViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.IO
-import okhttp3.Dispatcher
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginFragment : Fragment(){
 
@@ -30,7 +30,6 @@ class LoginFragment : Fragment(){
             TodoRepo(context?.applicationContext as Application)
         )
     }
-    //private val viewModel by activityViewModels<SyncViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,32 +44,18 @@ class LoginFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        MainActivity.bar2("Login")
+
         binding?.logUser?.setText("username : cj2")
         binding?.logPassword?.setText("password : pass")
         binding?.btnLogin?.setOnClickListener(){
-         //   val controller = findNavController()
-        //    val action = LoginFragmentDirections.toApp()
-        //    controller.navigate(action)
 
-            //testRepo()
-
-            val reg2 = LoginBody(binding?.logUser?.editableText.toString(),
+            SyncViewModel.credentials = LoginBody(binding?.logUser?.editableText.toString(),
                 binding?.logPassword?.editableText.toString())
-                //LoginBody("username : cj2","password : pass")
-            //viewModel.test(reg2)
-           // LoginRepo.checkCredentials()
-            SyncViewModel.credentials = reg2
-           // viewModel.
-            viewModel.viewLogin()
 
-            // /*viewModel.createTodo.observe(viewLifecycleOwner){
-            Snackbar.make(view, ComposeFragment.messenger, Snackbar.LENGTH_LONG).show()
-            if(ComposeFragment.messenger.equals("lOK"))move()
-            else
-            binding?.logUser?.error  = "bad login"
+            logger()
 
-
-           // val test = LoginRepo.register(registerBody)
         }
 
         binding?.btnReg?.setOnClickListener(){
@@ -85,6 +70,20 @@ class LoginFragment : Fragment(){
         val controller = findNavController()
         val action = LoginFragmentDirections.toList()
         controller.navigate(action)
+    }
+
+    fun logger(){
+        GlobalScope.launch(Dispatchers.IO) {val afterLog = LoginRepo.login(SyncViewModel.credentials)
+            Log.d("testing login",afterLog.toString())
+            Snackbar.make(requireView(), afterLog.body()!!.message, Snackbar.LENGTH_LONG).show()
+            if (afterLog.message().equals("OK")) {
+                LoginRepo.username = SyncViewModel.credentials.username
+                LoginRepo.checkCredentials(activity?.application!!, afterLog.body()!!.token)
+                withContext(Dispatchers.Main){ move() }
+            }
+            else
+                binding?.logUser?.error  = "bad login"
+        }
     }
 
 

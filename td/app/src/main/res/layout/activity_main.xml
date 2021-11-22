@@ -7,19 +7,6 @@
     tools:context=".view.MainActivity">
 
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="Login"
-            app:menu="@menu/top_app_bar"
-            app:navigationIcon="@drawable/icon3"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/nav_host_fragment"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary" />
-
-
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -27,7 +14,7 @@
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topAppBar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph"/>
