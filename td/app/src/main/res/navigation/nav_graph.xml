@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment2">
+    <fragment
+        android:id="@+id/loginFragment2"
+        android:name="com.example.todoApp.view.LoginFragment"
+        android:label="login_layout"
+        tools:layout="@layout/login_layout" >
+        <action
+            android:id="@+id/toList"
+            app:destination="@id/listFragment" />
+        <action
+            android:id="@+id/toReg"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.example.todoApp.view.ListFragment"
+        android:label="list_layout"
+        tools:layout="@layout/list_layout" >
+        <action
+            android:id="@+id/toDetails"
+            app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/toComp"
+            app:destination="@id/composeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.todoApp.view.DetailsFragment"
+        android:label="detials_layout"
+        tools:layout="@layout/detials_layout" >
+        <argument
+            android:name="selection"
+            app:argType="com.example.todoApp.model.Todo" />
+        <action
+            android:id="@+id/toEdits"
+            app:destination="@id/editFragment" />
+        <action
+            android:id="@+id/returnToList"
+            app:destination="@id/listFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.example.todoApp.view.EditFragment"
+        android:label="edit_layout"
+        tools:layout="@layout/edit_layout" >
+        <argument
+            android:name="editable"
+            app:argType="com.example.todoApp.model.Todo" />
+        <action
+            android:id="@+id/backToDetails"
+            app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/afterDel"
+            app:destination="@id/listFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.todoApp.view.RegisterFragment"
+        android:label="register_layout"
+        tools:layout="@layout/register_layout" >
+        <action
+            android:id="@+id/regToList"
+            app:destination="@id/listFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/composeFragment"
+        android:name="com.example.todoApp.view.ComposeFragment"
+        android:label="compose_layout"
+        tools:layout="@layout/compose_layout" >
+        <action
+            android:id="@+id/afterComp"
+            app:destination="@id/listFragment" />
+    </fragment>
+</navigation>

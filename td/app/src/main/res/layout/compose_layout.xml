@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.ComposeFragment">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="enter title here"
+        android:textAppearance="?attr/textAppearanceHeadline3"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tv_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="enter description here"
+        android:textAppearance="?attr/textAppearanceBody1"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="true"
+        android:text="completed"/>
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE EDITS"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel edits"/>
+
+
+</LinearLayout>
