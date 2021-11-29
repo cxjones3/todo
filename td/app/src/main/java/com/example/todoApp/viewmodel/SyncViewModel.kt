@@ -10,6 +10,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.todoApp.model.*
 import com.example.todoApp.repo.TodoRepo
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
 import java.lang.IllegalArgumentException
 

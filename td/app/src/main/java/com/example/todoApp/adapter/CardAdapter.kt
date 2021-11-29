@@ -1,5 +1,6 @@
 package com.example.todoApp.adapter
 
+import android.app.Application
 import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,8 +8,14 @@ import com.example.todoApp.databinding.ItemLayoutBinding
 import com.example.todoApp.model.Todo
 import com.example.todoApp.model.Todor
 import com.example.todoApp.repo.LoginRepo
+import com.example.todoApp.repo.TodoRepo
 import com.example.todoApp.util.layoutInflater
+import com.example.todoApp.util.sayCletis
 import com.example.todoApp.viewmodel.SyncViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 
 class CardAdapter (
 private val selectedTodo : (Todo) -> Unit
@@ -29,6 +36,20 @@ private val selectedTodo : (Todo) -> Unit
     }
 
     override fun getItemCount(): Int = todos.size
+
+    fun deleteItem(position: Int){
+        val deleting = todos.removeAt(position)
+        notifyItemRangeRemoved(position,todos.size)
+        Log.d("swipe",deleting.toString().sayCletis())
+        GlobalScope.launch(Dispatchers.IO) {
+            //val g = Application().applicationContext
+            val extraRepo = TodoRepo(Application())
+            extraRepo.delete(deleting)
+        }
+
+
+    }
+
 
     fun updateUrls(list: List<Todor>){
         val size = this.todos.size

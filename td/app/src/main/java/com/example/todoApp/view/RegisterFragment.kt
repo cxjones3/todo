@@ -77,6 +77,7 @@ class RegisterFragment : Fragment() {
     }
 
     fun registerUser(registerBody: RegisterBody){
+        Log.d("testing register","top of method")
         GlobalScope.launch(Dispatchers.IO) {val afterLog = LoginRepo.register(registerBody)
             Log.d("testing register",afterLog.toString())
             Snackbar.make(requireView(), afterLog.message(), Snackbar.LENGTH_LONG).show()
@@ -89,6 +90,8 @@ class RegisterFragment : Fragment() {
             }
           //  else
               //  binding?.logUser?.error  = "bad login"
+        }.also{if(it.isCancelled)
+            binding?.logUser?.error  = "bad login"
         }
     }
 }

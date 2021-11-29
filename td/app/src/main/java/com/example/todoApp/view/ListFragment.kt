@@ -10,8 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.todoApp.adapter.CardAdapter
 import com.example.todoApp.databinding.ListLayoutBinding
+import com.example.todoApp.model.Swipe
 import com.example.todoApp.model.Todo
 import com.example.todoApp.model.Todor
 import com.example.todoApp.repo.LoginRepo
@@ -46,11 +48,16 @@ _binding = it  }.root
         MainActivity.bar2("All")
         MainActivity.enableBottomNav(true)
 
+
+
+
         viewModel.todoSet.observe(viewLifecycleOwner)
         {
             Log.d("checker",it.toString())
             binding.rvLsit.adapter = CardAdapter(::selectedTodo)
             (binding.rvLsit.adapter as CardAdapter).updateUrls(it)
+            var touch = ItemTouchHelper(Swipe(binding.rvLsit.adapter as CardAdapter))
+            touch.attachToRecyclerView(binding.rvLsit)
 
         }
 

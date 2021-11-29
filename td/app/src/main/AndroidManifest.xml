@@ -13,19 +13,22 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyApplication"
+
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".view.MainActivity"
-            android:label="Fixed Title"
-            android:exported="true">
+            android:name=".view.SplashActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="true"
+            android:label="Fixed Title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.MainActivity"
+            android:theme="@style/Theme.MyApplication"></activity>
     </application>
 
 </manifest>
